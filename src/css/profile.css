@@ -1,0 +1,90 @@
+.mobile-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #000000;
+  border-top: 1px solid #262626;
+  z-index: 40;
+  display: flex;
+  align-items: stretch;
+  height: 60px;
+}
+
+.mobile-nav-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  font-size: 0.75rem;
+  min-height: 100%;
+  text-align: center;
+  color: #737373;
+  transition: color 0.2s ease;
+}
+
+.mobile-nav-item.active {
+  color: #1D9BF0;
+}
+
+.mobile-nav-item:hover {
+  color: #ffffff;
+}
+
+/* Ensure all nav items have consistent spacing */
+.mobile-nav-item span {
+  display: block;
+  line-height: 1.2;
+}
+
+.mobile-nav-item .text-xl {
+  margin-bottom: 2px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .sidebar-desktop {
+    display: none;
+  }
+  
+  .mobile-nav {
+    display: flex;
+  }
+  
+  .profile-main {
+    margin-left: 0 !important;
+  }
+  
+  .profile-header-mobile {
+    display: block;
+  }
+  
+  .profile-header-desktop {
+    display: none;
+  }
+}
+
+@media (min-width: 769px) {
+  .mobile-nav {
+    display: none;
+  }
+  
+  .profile-header-mobile {
+    display: none;
+  }
+  
+  .profile-header-desktop {
+    display: block;
+  }
+  
+  .sidebar-desktop {
+    display: flex;
+  }
+}
+
+/* Smooth transitions */
+.profile-transition {
+  transition: all 0.3s ease;
+}

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login • Campus Coders</title>
+  <link rel="stylesheet" href="/src/css/styles.css">
+  <link rel="stylesheet" href="/dist/output.css">
+</head>
+
+<body class="bg-black min-h-screen flex items-center justify-center p-4">
+  <div class="w-full max-w-md">
+    <!-- Main Card -->
+    <div class="bg-neutral-950 border border-neutral-800 rounded-xl p-6 md:p-8 space-y-6">
+      
+      <!-- Header -->
+      <div class="text-center space-y-3">
+        <div class="flex items-center justify-center gap-2 mb-2">
+          <span class="font-bold text-[#1D9BF0] text-2xl">&lt;/&gt;</span>
+          <h1 class="font-semibold text-2xl text-white">
+            APSGMNS <span class="text-[#1D9BF0] font-light">Campus</span>
+          </h1>
+        </div>
+        <p class="text-neutral-400 text-sm">
+          Welcome back programmer
+        </p>
+      </div>
+
+      <!-- Form -->
+      <form id="loginForm" class="space-y-4">
+        <!-- Username/Email -->
+        <div>
+          <label class="block text-sm text-neutral-300 mb-1">Username or Email</label>
+          <input 
+            type="text" 
+            id="username" 
+            placeholder="Enter username or email"
+            class="w-full px-3 py-2 bg-neutral-900 border border-neutral-700 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-[#1D9BF0] focus:border-transparent"
+            required 
+          />
+        </div>
+
+        <!-- Password -->
+        <div>
+          <label class="block text-sm text-neutral-300 mb-1">Password</label>
+          <input 
+            type="password" 
+            id="password" 
+            placeholder="••••••••"
+            class="w-full px-3 py-2 bg-neutral-900 border border-neutral-700 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-[#1D9BF0] focus:border-transparent"
+            required 
+          />
+        </div>
+
+        <!-- Submit Button -->
+        <button 
+          id="loginBtn"
+          class="w-full p-3 bg-[#1D9BF0] rounded-lg text-black font-bold hover:bg-[#198ad3] transition-colors disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-[#1D9BF0] focus:ring-offset-2 focus:ring-offset-neutral-950"
+        >
+          Log In
+        </button>
+      </form>
+
+      <!-- Error Message -->
+      <p id="msg" class="text-red-400 text-center text-sm"></p>
+
+      <!-- Sign Up Link -->
+      <p class="text-center text-sm text-neutral-400">
+        New to Campus Coders?
+        <a href="./register.html" class="text-[#1D9BF0] hover:underline ml-1">Create an account</a>
+      </p>
+    </div>
+  </div>
+
+<script type="module">
+  import { login, redirectIfAuthenticated, checkAuthStatus } from "../js/auth.js";
+
+  // Modified: Check if user just logged out before auto-redirecting
+  document.addEventListener('DOMContentLoaded', async function() {
+    console.log('🔐 Login page loaded');
+    
+    // Check if we have the logout flag
+    const justLoggedOut = sessionStorage.getItem('just_logged_out');
+    
+    if (justLoggedOut) {
+      console.log('🔐 User just logged out - clearing flag and staying on login page');
+      sessionStorage.removeItem('just_logged_out');
+      return; // Don't auto-redirect
+    }
+    
+    // Only auto-redirect if user is authenticated AND didn't just logout
+    const isAuthenticated = await checkAuthStatus();
+    if (isAuthenticated) {
+      console.log('🔐 User is authenticated, redirecting...');
+      
+      try {
+        const profileRes = await fetch("http://localhost:8000/api/v1/users/getMyProfile", {
+          credentials: "include"
+        });
+        const profileData = await profileRes.json();
+
+        if (profileData.success) {
+          if (profileData.data.profileCompleted) {
+            window.location.href = "../pages/feed.html";
+          } else {
+            window.location.href = "../pages/profile_setup.html";
+          }
+        }
+      } catch (error) {
+        console.error("Profile check error:", error);
+        window.location.href = "../pages/feed.html";
+      }
+    } else {
+      console.log('🔐 User is not authenticated, staying on login page');
+    }
+  });
+
+  const form = document.getElementById("loginForm");
+  const msg = document.getElementById("msg");
+  const btn = document.getElementById("loginBtn");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
+
+    if (!username || !password) {
+      msg.innerText = "Please fill in all fields";
+      return;
+    }
+
+    btn.disabled = true;
+    btn.innerHTML = `
+      <div class="flex items-center justify-center gap-2">
+        <div class="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin"></div>
+        <span>Logging in...</span>
+      </div>
+    `;
+
+    const res = await login(username, password);
+
+    if (res?.success) {
+      msg.innerText = "";
+
+      // Save user to localStorage
+      const user = res.data?.user;
+      if (user) {
+        localStorage.setItem("userId", user._id);
+        localStorage.setItem("username", user.username);
+      }
+
+      setTimeout(async () => {
+        try {
+          const profileRes = await fetch("http://localhost:8000/api/v1/users/getMyProfile", {
+            credentials: "include"
+          });
+          const profileData = await profileRes.json();
+
+          if (profileData.success) {
+            if (profileData.data.profileCompleted) {
+              window.location.href = "../pages/feed.html";
+            } else {
+              window.location.href = "../pages/profile_setup.html";
+            }
+          }
+        } catch (error) {
+          console.error("Profile check error:", error);
+          window.location.href = "../pages/feed.html";
+        }
+      }, 1000);
+
+    } else {
+      msg.innerText = res?.message || "Invalid credentials";
+      btn.disabled = false;
+      btn.textContent = "Log In";
+    }
+  });
+</script>
+
+</body>
+</html>

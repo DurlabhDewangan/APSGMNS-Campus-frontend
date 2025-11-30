@@ -1,0 +1,194 @@
+/* Profile Setup Specific Styles */
+.profile-setup-card {
+  @apply w-full bg-neutral-950 border border-neutral-800 rounded-2xl shadow-2xl p-6 md:p-8;
+  background: linear-gradient(145deg, #0a0a0a 0%, #111 100%);
+}
+
+.brand-logo {
+  @apply text-3xl font-semibold tracking-wide;
+}
+
+.avatar-upload-section {
+  @apply flex flex-col items-center space-y-4 mb-8;
+}
+
+.avatar-container {
+  @apply relative group cursor-pointer transition-transform duration-300 hover:scale-105;
+}
+
+.avatar-image {
+  @apply h-32 w-32 rounded-full object-cover border-4 border-neutral-700 shadow-lg;
+  transition: all 0.3s ease;
+}
+
+.avatar-image:hover {
+  @apply border-[#1D9BF0] opacity-80;
+}
+
+.avatar-overlay {
+  @apply absolute inset-0 flex items-center justify-center bg-black/60 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300;
+}
+
+.avatar-change-text {
+  @apply text-white text-sm font-medium flex items-center gap-2;
+}
+
+.avatar-upload-input {
+  @apply hidden;
+}
+
+.form-section {
+  @apply space-y-4 p-4 bg-neutral-900/50 rounded-xl border border-neutral-800;
+}
+
+.section-title {
+  @apply text-lg font-semibold text-white mb-2 flex items-center gap-2;
+}
+
+.section-title::before {
+  content: "▸";
+  @apply text-[#1D9BF0];
+}
+
+.form-group {
+  @apply space-y-2;
+}
+
+.form-label {
+  @apply block text-sm font-medium text-neutral-300;
+}
+
+.form-select,
+.form-textarea {
+  @apply w-full px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-[#1D9BF0] focus:border-transparent transition-all duration-200;
+}
+
+.form-select {
+  @apply appearance-none bg-no-repeat bg-right pr-10;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.75rem center;
+  background-size: 16px 12px;
+}
+
+.form-textarea {
+  @apply resize-none;
+  min-height: 100px;
+}
+
+.submit-button {
+  @apply w-full p-4 bg-gradient-to-r from-[#1D9BF0] to-[#1A8CD8] rounded-xl text-white font-bold transition-all duration-300 relative overflow-hidden;
+}
+
+.submit-button:hover:not(:disabled) {
+  @apply transform scale-[1.02] shadow-lg;
+  background: linear-gradient(135deg, #1D9BF0 0%, #1669C2 100%);
+}
+
+.submit-button:disabled {
+  @apply opacity-70 cursor-not-allowed;
+}
+
+.button-text {
+  @apply transition-opacity duration-200;
+}
+
+.button-loader {
+  @apply flex items-center justify-center gap-2 absolute inset-0;
+}
+
+.loading-spinner {
+  @apply w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin;
+}
+
+.message-container {
+  @apply mt-4 p-4 rounded-lg border;
+}
+
+.message-success {
+  @apply bg-green-500/10 border-green-500/30 text-green-400;
+}
+
+.message-error {
+  @apply bg-red-500/10 border-red-500/30 text-red-400;
+}
+
+.message-warning {
+  @apply bg-yellow-500/10 border-yellow-500/30 text-yellow-400;
+}
+
+/* Toast Notification */
+.toast {
+  @apply fixed top-4 right-4 max-w-sm p-4 rounded-lg shadow-lg z-50 transform transition-all duration-300;
+}
+
+.toast.success {
+  @apply bg-green-500 text-white;
+}
+
+.toast.error {
+  @apply bg-red-500 text-white;
+}
+
+.toast.info {
+  @apply bg-[#1D9BF0] text-white;
+}
+
+.toast.show {
+  @apply translate-x-0 opacity-100;
+}
+
+.toast.hide {
+  @apply translate-x-full opacity-0;
+}
+
+/* Progress Steps (Optional Enhancement) */
+.progress-steps {
+  @apply flex justify-center mb-8;
+}
+
+.progress-step {
+  @apply w-3 h-3 rounded-full bg-neutral-700 mx-1 transition-all duration-300;
+}
+
+.progress-step.active {
+  @apply bg-[#1D9BF0] scale-125;
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+  .profile-setup-card {
+    @apply p-6 border-0 rounded-xl;
+    margin: 0 -1rem;
+  }
+  
+  .avatar-image {
+    @apply h-28 w-28;
+  }
+  
+  .form-section {
+    @apply p-3;
+  }
+  
+  .grid-cols-1.md\:grid-cols-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Animation Classes */
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.slide-up {
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}

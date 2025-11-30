@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile Setup • APSGMNS Campus</title>
+  <link rel="stylesheet" href="/src/css/styles.css">
+  <link rel="stylesheet" href="/dist/output.css">
+</head>
+
+<body class="bg-black min-h-screen flex items-center justify-center p-4">
+  <div class="w-full max-w-lg">
+    <!-- Main Card -->
+    <div class="bg-neutral-950 border border-neutral-800 rounded-xl p-6 md:p-8">
+      
+      <!-- Header -->
+      <div class="text-center mb-8">
+        <div class="flex items-center justify-center gap-2 mb-3">
+          <span class="font-bold text-[#1D9BF0] text-2xl">&lt;/&gt;</span>
+          <h1 class="font-semibold text-2xl text-white">
+            APSGMNS <span class="text-[#1D9BF0] font-light">Campus</span>
+          </h1>
+        </div>
+        <h1 class="text-2xl font-bold text-white mb-2">Complete Your Profile</h1>
+        <p class="text-neutral-400">Finish setting up your account to get started</p>
+      </div>
+
+      <!-- Avatar Section -->
+      <div class="flex flex-col items-center mb-8">
+        <div class="relative group mb-4">
+          <img 
+            id="previewImg"
+            src="http://res.cloudinary.com/dr6yn8cgn/image/upload/v1763871496/etjnhzbgfgtcqccv0uxm.jpg"
+            class="w-24 h-24 rounded-full object-cover border-4 border-neutral-700"
+            alt="Profile avatar"
+          />
+          <label for="avatar" class="absolute inset-0 bg-black bg-opacity-60 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+            <span class="text-white text-sm font-medium">Change</span>
+          </label>
+        </div>
+        <input type="file" name="avatar" id="avatar" accept="image/*" class="hidden" />
+        <p class="text-sm text-neutral-500 text-center">Click to upload profile picture</p>
+      </div>
+
+      <!-- Setup Form -->
+      <form id="onboardForm" class="space-y-6">
+        
+        <!-- Personal Details -->
+        <div class="space-y-4">
+          <h3 class="text-lg font-semibold text-white border-b border-neutral-800 pb-2">Personal Details</h3>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Gender -->
+            <div>
+              <label for="gender" class="block text-sm font-medium text-neutral-300 mb-1">Gender</label>
+              <select id="gender" class="w-full px-3 py-2 bg-neutral-900 border border-neutral-800 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-[#1D9BF0] focus:border-transparent" required>
+                <option value="" disabled selected>Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+
+            <!-- Year -->
+            <div>
+              <label for="year" class="block text-sm font-medium text-neutral-300 mb-1">Year</label>
+              <select id="year" class="w-full px-3 py-2 bg-neutral-900 border border-neutral-800 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-[#1D9BF0] focus:border-transparent" required>
+                <option value="" disabled selected>Select Year</option>
+                <option value="1st Year">1st Year</option>
+                <option value="2nd Year">2nd Year</option>
+                <option value="3rd Year">3rd Year</option>
+                <option value="3rd Year">4rd Year</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Course -->
+          <div>
+            <label for="course" class="block text-sm font-medium text-neutral-300 mb-1">Course</label>
+            <select id="course" class="w-full px-3 py-2 bg-neutral-900 border border-neutral-800 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-[#1D9BF0] focus:border-transparent" required>
+              <option value="" disabled selected>Select Course</option>
+              <option value="BCA">BCA</option>
+              <option value="BSc IT">BSc IT</option>
+              <option value="BSc CS">BSc CS</option>
+              <option value="PGDCA">PGDCA</option>
+              <option value="MCA">MCA</option>
+              <option value="MSc IT">MSc IT</option>
+              <option value="MSc IT">BSc</option>
+              <option value="MSc IT">Bcom</option>
+              <option value="MSc IT">BA</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Bio Section -->
+        <div class="space-y-4">
+          <h3 class="text-lg font-semibold text-white border-b border-neutral-800 pb-2">About You</h3>
+          
+          <div>
+            <label for="bio" class="block text-sm font-medium text-neutral-300 mb-1">
+              Bio <span class="text-neutral-500 font-normal">(Optional)</span>
+            </label>
+            <textarea 
+              id="bio" 
+              rows="3" 
+              placeholder="Tell us about yourself..."
+              class="w-full px-3 py-2 bg-neutral-900 border border-neutral-800 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-[#1D9BF0] focus:border-transparent resize-none"
+              maxlength="150"
+            ></textarea>
+            <div class="flex justify-between items-center mt-1">
+              <p class="text-xs text-neutral-500">Share something about yourself</p>
+              <p class="text-xs text-neutral-500" id="bioCounter">0/150</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button 
+          type="submit" 
+          id="submitBtn" 
+          class="w-full bg-[#1D9BF0] hover:bg-[#198ad3] text-black font-bold py-3 px-4 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-[#1D9BF0] focus:ring-offset-2 focus:ring-offset-neutral-950"
+        >
+          <span class="button-text">Complete Setup</span>
+          <div class="button-loader hidden items-center justify-center gap-2">
+            <div class="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin"></div>
+            <span>Setting up...</span>
+          </div>
+        </button>
+      </form>
+
+      <!-- Message Display -->
+      <div id="messageContainer" class="mt-4 hidden p-3 rounded-lg border text-sm"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { ProfileSetup } from '../js/modules/profile-setup.js';
+    
+    document.addEventListener('DOMContentLoaded', () => {
+      new ProfileSetup();
+    });
+  </script>
+</body>
+</html>

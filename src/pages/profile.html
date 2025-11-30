@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/src/css/styles.css">
+<link rel="stylesheet" href="/dist/output.css">
+
+
+  
+  <title>My Profile</title>
+</head>
+
+<body class="bg-black text-white">
+  <!-- DESKTOP LAYOUT -->
+  <div class="hidden md:flex">
+    <!-- LEFT NAV - DESKTOP -->
+    <aside class="w-64 h-screen fixed border-r border-gray-700 bg-black p-6 flex flex-col gap-6 sidebar-desktop">
+      <h1 class="text-2xl font-bold text-white cursor-pointer" onclick="window.location.href='feed.html'">Built By Students, For Students</h1>
+      
+      <nav class="flex flex-col gap-5 text-lg">
+        <a href="feed.html" class="hover:text-gray-300 text-white flex items-center gap-3">
+          Home
+        </a>
+      </nav>
+    </aside>
+
+    <!-- PROFILE SECTION - DESKTOP -->
+    <main class="flex-1 ml-64 px-8 lg:px-12 flex justify-center profile-main">
+      <div class="w-full max-w-[900px] py-8">
+        <!-- Profile Header - Desktop -->
+        <div id="profileContainer" class="mb-12 profile-header-desktop"></div>
+
+        <!-- Tabs - Desktop -->
+        <div class="flex justify-center border-t border-gray-700 pt-6">
+          <div class="flex gap-12 text-gray-400 text-sm">
+            <button class="profile-tab border-t-2 border-white text-white pt-2 px-4" onclick="switchTab('posts')">Posts</button>
+            <button class="pt-2 px-4 opacity-40 cursor-not-allowed">Saved</button>
+            <button class="pt-2 px-4 opacity-40 cursor-not-allowed">Tagged</button>
+          </div>
+        </div>
+
+        <!-- Posts Grid - Desktop -->
+        <div id="postGrid" class="grid grid-cols-3 gap-4 mt-8 mb-10">
+          <div class="col-span-3 text-center py-12">
+            <div class="inline-block w-8 h-8 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+            <p class="text-gray-400 text-sm mt-3">Loading posts...</p>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+ <!-- MOBILE LAYOUT -->
+<div class="md:hidden">
+  <!-- MOBILE HEADER -->
+  <header class="sticky top-0 bg-black border-b border-gray-800 z-30 p-4 profile-header-mobile">
+    <div class="flex justify-between items-center">
+      <h1 id="mobileHeaderUsername" class="text-xl font-bold">Profile</h1>
+      <button onclick="window.location.href='feed.html'" class="text-gray-400 text-sm">
+        ← Back to Feed
+      </button>
+    </div>
+  </header>
+
+  <!-- PROFILE CONTENT -->
+  <main class="pb-20 px-4">
+    <div id="profileContainerMobile" class="py-6"></div>
+
+    <div class="border-t border-gray-800 mb-4">
+      <div class="flex justify-around">
+        <button class="profile-tab flex-1 py-4 border-t-2 border-white text-white font-semibold text-sm" onclick="switchTab('posts')">Posts</button>
+        <button class="flex-1 py-4 text-gray-400 font-semibold text-sm opacity-40 cursor-not-allowed">Saved</button>
+        <button class="flex-1 py-4 text-gray-400 font-semibold text-sm opacity-40 cursor-not-allowed">Tagged</button>
+      </div>
+    </div>
+
+    <div id="postGridMobile" class="grid grid-cols-3 gap-1 mb-4">
+      <div class="col-span-3 text-center py-12">
+        <div class="inline-block w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+        <p class="text-gray-400 text-sm mt-2">Loading posts...</p>
+      </div>
+    </div>
+  </main>
+</div>
+
+
+
+<script src="/src/js/profile.js" defer></script>
+
+</body>
+</html>
