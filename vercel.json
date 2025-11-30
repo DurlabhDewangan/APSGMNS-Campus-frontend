@@ -1,5 +1,7 @@
 {
+  "buildCommand": "npm run build",
   "outputDirectory": ".",
+  "framework": null,
   "rewrites": [
     { "source": "/", "destination": "/src/pages/login.html" }
   ]
