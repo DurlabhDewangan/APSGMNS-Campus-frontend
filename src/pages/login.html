@@ -94,7 +94,7 @@
       console.log('🔐 User is authenticated, redirecting...');
       
       try {
-        const profileRes = await fetch("http://localhost:8000/api/v1/users/getMyProfile", {
+        const profileRes = await fetch("https://campusfrontend.vercel.app/api/v1/users/getMyProfile", {
           credentials: "include"
         });
         const profileData = await profileRes.json();
@@ -152,7 +152,7 @@
 
       setTimeout(async () => {
         try {
-          const profileRes = await fetch("http://localhost:8000/api/v1/users/getMyProfile", {
+          const profileRes = await fetch("https://campusfrontend.vercel.app/api/v1/users/getMyProfile", {
             credentials: "include"
           });
           const profileData = await profileRes.json();

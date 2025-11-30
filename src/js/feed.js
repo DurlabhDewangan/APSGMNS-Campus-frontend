@@ -201,13 +201,14 @@ async function toggleFollow(userId, button) {
     const token = localStorage.getItem('token');
     const isFollowing = button.textContent === 'Following';
     
-    const response = await fetch(`${BASE_URL}/users/${userId}/follow`, {
-      method: isFollowing ? 'DELETE' : 'POST',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      }
-    });
+   const response = await fetch(`${BASE_URL}/users/${userId}/follow`, {
+  method: isFollowing ? 'DELETE' : 'POST',
+  credentials: "include",   // <-- required
+  headers: {
+    'Content-Type': 'application/json'
+  }
+});
+
 
     if (response.ok) {
       if (isFollowing) {

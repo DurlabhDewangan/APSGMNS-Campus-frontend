@@ -388,23 +388,34 @@ export function optimizeImageLoad() {
 // Cache for API responses
 const apiCache = new Map();
 export async function cachedFetch(url, options = {}) {
-  const cacheKey = url + JSON.stringify(options);
-  
+  // Ensure credentials are always included for authentication cookies
+  const finalOptions = {
+    credentials: "include",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...(options.headers || {})
+    }
+  };
+
+  const cacheKey = url + JSON.stringify(finalOptions);
+
   if (apiCache.has(cacheKey)) {
     return apiCache.get(cacheKey);
   }
-  
-  const response = await fetch(url, options);
+
+  const response = await fetch(url, finalOptions);
   const data = await response.json();
-  
-  // Cache successful responses for 30 seconds
+
+  // Cache only successful responses
   if (response.ok) {
     apiCache.set(cacheKey, data);
     setTimeout(() => apiCache.delete(cacheKey), 30000);
   }
-  
+
   return data;
 }
+
 
 // Initialize utilities when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
