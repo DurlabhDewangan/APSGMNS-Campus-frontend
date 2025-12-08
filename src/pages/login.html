@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Login • Campus Coders</title>
-  <link rel="stylesheet" href="/src/css/styles.css">
+  <link rel="stylesheet" href="/src/css/style.css">
   <link rel="stylesheet" href="/dist/output.css">
 </head>
 
@@ -75,6 +75,15 @@
 <script type="module">
   import { login, redirectIfAuthenticated, checkAuthStatus } from "../js/auth.js";
 
+
+const BASE_URL = 
+  window.location.hostname.includes("localhost") ||
+  window.location.hostname.includes("127.0.0.1")
+    ? "http://localhost:8000/api/v1"
+    : "https://campus-coders-backend.onrender.com/api/v1";
+
+
+
   // Modified: Check if user just logged out before auto-redirecting
   document.addEventListener('DOMContentLoaded', async function() {
     console.log('🔐 Login page loaded');
@@ -94,9 +103,10 @@
       console.log('🔐 User is authenticated, redirecting...');
       
       try {
-        const profileRes = await fetch("https://campusfrontend.vercel.app/api/v1/users/getMyProfile", {
-          credentials: "include"
-        });
+        const profileRes = await fetch(`${BASE_URL}/users/getMyProfile`, {
+  credentials: "include"
+});
+
         const profileData = await profileRes.json();
 
         if (profileData.success) {
@@ -152,9 +162,10 @@
 
       setTimeout(async () => {
         try {
-          const profileRes = await fetch("https://campusfrontend.vercel.app/api/v1/users/getMyProfile", {
-            credentials: "include"
-          });
+          const profileRes = await fetch(`${BASE_URL}/users/getMyProfile`, {
+  credentials: "include"
+});
+
           const profileData = await profileRes.json();
 
           if (profileData.success) {

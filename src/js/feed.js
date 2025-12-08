@@ -12,8 +12,11 @@ function debounce(func, delay = 400) {
 }
 
 
-
-const BASE_URL = "https://campus-coders-backend.onrender.com/api/v1";
+const BASE_URL = 
+  window.location.hostname.includes("localhost") ||
+  window.location.hostname.includes("127.0.0.1")
+    ? "http://localhost:8000/api/v1"
+    : "https://campus-coders-backend.onrender.com/api/v1";
 
 
 let nextCursor = null;
@@ -230,6 +233,7 @@ async function toggleFollow(userId, button) {
   }
 }
 
+
 /* --------------------- LIKE FUNCTIONALITY --------------------- */
 
 async function toggleLike(button) {
@@ -239,16 +243,8 @@ async function toggleLike(button) {
   // ---- 1️⃣ Optimistic UI update ----
   applyLikeUI(button, !wasLiked);
 
-  // ---- 2️⃣ Optimistic like count update ----
-  const likeCountElement = button.closest(".flex").nextElementSibling;
-  const likeCountSpan = likeCountElement.querySelector("span:first-child");
-  const oldCount = parseInt(likeCountSpan.textContent);
-
-  // Update UI instantly
-  likeCountSpan.textContent = wasLiked ? oldCount - 1 : oldCount + 1;
-
   try {
-    // ---- 3️⃣ Call API ----
+    // ---- 2️⃣ Call API ----
     const response = await fetch(
       `${BASE_URL}/post/${wasLiked ? "postUnlike" : "postLike"}/${postId}`,
       {
@@ -259,22 +255,18 @@ async function toggleLike(button) {
 
     const data = await response.json();
 
-    // ---- 4️⃣ If backend fails → revert UI ----
+    // ---- 3️⃣ If backend fails → revert UI ----
     if (!data.success) {
       applyLikeUI(button, wasLiked);
-      likeCountSpan.textContent = oldCount;
     }
 
   } catch (error) {
     console.error("Like error:", error);
 
-    // ---- 5️⃣ On network failure → revert ----
+    // ---- 4️⃣ On network failure → revert ----
     applyLikeUI(button, wasLiked);
-    likeCountSpan.textContent = oldCount;
   }
 }
-
-
 
 // -------------------------
 // UI Update Helper Function
@@ -307,6 +299,8 @@ function applyLikeUI(button, isLiked) {
     `;
   }
 }
+
+
 
 /* --------------------- COMMENT FUNCTIONALITY --------------------- */
 
@@ -536,7 +530,6 @@ function renderPostCard(post) {
     <!-- LIKE BUTTON (SVG + Optimistic UI) -->
     <button 
       class="like-btn hover:scale-110 transition"
-      onclick="toggleLike(this)"
       data-post-id="${post._id}"
       data-liked="${post.isLiked}"
     >
@@ -585,9 +578,7 @@ function renderPostCard(post) {
     <div>
   `;
 
-
- 
-
+  
     // Initialize Swiper if multiple images
   if (post.media.length > 1) {
     new Swiper(div.querySelector(".post-swiper"), {
@@ -603,41 +594,32 @@ function renderPostCard(post) {
     });
   }
 
-  /* --------------------- USER PROFILE IN SIDEBAR --------------------- */
-
-async function loadMyProfile() {
-  const profileBox = document.getElementById("myProfile");
-
-  try {
-    const response = await fetch(`${BASE_URL}/users/getMyProfile`, { 
-      credentials: "include" 
-    });
-    const { data: user } = await response.json();
-
-    profileBox.innerHTML = `
-      <img src="${user.avatar}" class="w-14 h-14 rounded-full" />
-      <div>
-        <h4 class="font-semibold">${user.username}</h4>
-        <p class="text-gray-400 text-sm">${user.fullName || ""}</p>
-      </div>
-    `;
-
-  } catch (error) {
-    console.error("Profile load error:", error);
-  }
-}
+  
 
   document.getElementById("feedContainer").appendChild(div);
 
   // Add event listeners
-  const likeBtn = div.querySelector(".like-btn");
+const likeBtn = div.querySelector(".like-btn");
+
+if (likeBtn) {
   likeBtn.addEventListener("click", () => toggleLike(likeBtn));
+} else {
+  console.warn("❌ No like button found in this post");
+}
+
 
   const commentBtn = div.querySelector(".comment-btn");
   commentBtn.addEventListener("click", () => {
     openComments(post._id, post.caption);
   });
-}
+
+    }
+
+ 
+
+
+  /* --------------------- USER PROFILE IN SIDEBAR --------------------- */
+
 
 
 /* --------------------- LOGOUT --------------------- */
@@ -712,3 +694,4 @@ window.addEventListener("scroll", () => {
 window.openComments = openComments;
 window.removeImage = removeImage;
 window.toggleFollow = toggleFollow;
+window.toggleLike = toggleLike;

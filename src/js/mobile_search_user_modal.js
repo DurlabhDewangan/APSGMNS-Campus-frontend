@@ -1,5 +1,9 @@
 /* ==================== CONFIGURATION ==================== */
-const BASE_URL = "https://campus-coders-backend.onrender.com/api/v1";
+const BASE_URL = 
+  window.location.hostname.includes("localhost") ||
+  window.location.hostname.includes("127.0.0.1")
+    ? "http://localhost:8000/api/v1"
+    : "https://campus-coders-backend.onrender.com/api/v1";
 
 
 /* ==================== DEBOUNCE FUNCTION ==================== */
